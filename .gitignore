@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# CSV files
+*.csv
+!names.txt
+
+# Output folder (保留文件夹结构，但忽略内容)
+output/
+!output/.gitkeep
+
+# IDE
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# Debug files
+debug_html/
+debug_output.csv
+
+# API Keys (不要提交 API Key)
+*api_key*
+*apikey*
