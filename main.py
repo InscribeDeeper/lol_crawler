@@ -73,23 +73,53 @@ def get_wyang_status_indicator(rank: str) -> int:
     return 0
 
 
+def get_rank_from_score(score: float) -> str:
+    score_int = int(math.ceil(score))
+    if score_int >= 11:
+        return 'Diamond'
+    elif score_int == 10:
+        return 'Emerald I'
+    elif score_int == 9:
+        return 'Emerald II'
+    elif score_int == 8:
+        return 'Emerald III'
+    elif score_int == 7:
+        return 'Platinum I'
+    elif score_int == 6:
+        return 'Platinum II'
+    elif score_int == 5:
+        return 'Platinum IV'
+    elif score_int == 4:
+        return 'Gold I'
+    elif score_int == 3:
+        return 'Gold III'
+    elif score_int == 2:
+        return 'Silver'
+    else:
+        return 'Unranked'
+
+
 def build_row(data: dict) -> dict:
     rank = data.get('rank', 'Unranked')
     recent_90 = data.get('recent_90_days', {})
     last_3_ranks_str = data.get('last_match_avg_rank', '')
     last_3_ranks = [r.strip() for r in last_3_ranks_str.split(',')] if last_3_ranks_str else []
     avg_score = sum(get_wyang_status_indicator(r) for r in last_3_ranks) / len(last_3_ranks) if last_3_ranks else 0
+    avg_rank_str = get_rank_from_score(avg_score) if last_3_ranks else ''
     return {
-        'Account': data['username'], 'Current Rank': rank,
-        'League Points': data.get('league_points', 0), 'Wyang - Rank Score': get_wyang_status_indicator(rank),
+        'Account': data['username'], 
+        'League Points': data.get('league_points', 0), 
         'Win Rate %': data.get('win_rate', 0.0), 'Wins': data.get('wins', 0), 'Losses': data.get('losses', 0),
         'Games (90 days)': recent_90.get('solo_duo_games', 0),
         'Win Rate % (90 days)': recent_90.get('solo_duo_winrate', 0.0),
         'Last Season Rank': data.get('last_season_rank', ''),
-        'Last 3 Matches Ranks': last_3_ranks_str,
-        'Wyang - Hidden Rank Score (Last 3 Matches)': math.ceil(avg_score) if last_3_ranks else 0,
         'Win Rate % (Last 10)': data.get('recent_10_winrate', 0.0),
-        'Win Rate % (Last 3)': data.get('recent_3_winrate', 0.0)
+        'Win Rate % (Last 3)': data.get('recent_3_winrate', 0.0),
+        'Current Rank': rank,
+        'Wyang - Rank Score': get_wyang_status_indicator(rank),
+        'Last 3 Matches Ranks': last_3_ranks_str,
+        'Average Rank (Last 3 Matches)': avg_rank_str,
+        'Wyang - Hidden Rank Score (Last 3 Matches)': math.ceil(avg_score) if last_3_ranks else 0
     }
 
 
@@ -100,6 +130,7 @@ def build_error_row(name: str) -> dict:
         'League Points': 0, 'Wyang - Rank Score': 0, 'Win Rate %': 0.0, 'Wins': 0, 'Losses': 0,
         'Games (90 days)': 0, 'Win Rate % (90 days)': 0.0,
         'Last Season Rank': '', 'Last 3 Matches Ranks': '',
+        'Average Rank (Last 3 Matches)': '',
         'Wyang - Hidden Rank Score (Last 3 Matches)': 0,
         'Win Rate % (Last 10)': 0.0, 'Win Rate % (Last 3)': 0.0
     }
