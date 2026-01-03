@@ -22,7 +22,7 @@ class XdxScraper:
         return (match.group(1).strip(), match.group(2).strip().upper()) if match else (username_input.strip(), "NA1")
     
     def get_url(self, username: str, tag: str) -> str:
-        return f"https://xdx.gg/{f'{username}-{tag}'.replace(' ', '-').lower()}"
+        return f"https://xdx.gg/{f'{username}-{tag}'.replace(' ', '').lower()}"
     
     def scrape(self, username_input: str) -> Dict:
         username, tag = self.parse_username(username_input)
